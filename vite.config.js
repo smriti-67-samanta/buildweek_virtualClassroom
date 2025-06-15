@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [react()],
@@ -13,5 +14,16 @@ export default defineConfig({
       host: 'localhost'
     }
   },
-  // ... other config
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html')
+      }
+    },
+    // Ensure public files (including _redirects) are copied to dist
+    assetsInclude: ['**/*.html', '**/*.svg', '**/*.png', '**/*.jpg', 'public/_redirects'],
+    outDir: 'dist',
+    emptyOutDir: true
+  },
+  publicDir: 'public' // Explicitly specify public directory
 })
